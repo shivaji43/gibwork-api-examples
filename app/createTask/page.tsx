@@ -72,6 +72,7 @@ export default function TaskForm() {
     setError(null)
     
     try {
+      // Create task transaction
       const response = await fetch('https://api2.gib.work/tasks/public/transaction', {
         method: 'POST',
         headers: {
@@ -91,26 +92,28 @@ export default function TaskForm() {
           payer: publicKey.toString()
         })
       })
-
+  
+      if (!response.ok) {
+        throw new Error(`API error: ${response.statusText}`)
+      }
+  
       const data = await response.json()
       
+      // Process transaction
       const serializedTransaction = Buffer.from(data.serializedTransaction, 'base64')
       const transaction = Transaction.from(serializedTransaction)
-
+  
       const signature = await sendTransaction(transaction, connection)
-
-      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash()
-      
-      const confirmation = await connection.confirmTransaction({
-        signature,
-        blockhash,
-        lastValidBlockHeight
-      })
-      
-      if (confirmation.value.err) {
-        throw new Error('Transaction failed to confirm')
+      const getConfirmation = async () => {
+        const result = await connection.getSignatureStatus(signature, {
+          searchTransactionHistory: true,
+        });
+        return result.value?.confirmationStatus;
+      };
+      if(!getConfirmation){
+        throw Error("transaction failed ")
       }
-
+      // Success case
       setTitle('')
       setContent('')
       setRequirements('')
@@ -118,11 +121,11 @@ export default function TaskForm() {
       setMintAddress('')
       setAmount(0)
       alert(`Task created successfully! Task ID: ${data.taskId}`)
-      window.location.href = '/'
+      window.location.href = '/exploreTasks'
       
     } catch (error) {
       console.error('Error creating task:', error)
-      setError('Failed to create task. Please try again.')
+      setError(error instanceof Error ? error.message : 'Failed to create task. Please try again.')
     } finally {
       setLoading(false)
     }
