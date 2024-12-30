@@ -23,7 +23,7 @@ const slideIn = {
 }
 
 export default function TaskForm() {
-  const { wallet, sendTransaction, publicKey } = useWallet()
+  const { sendTransaction, publicKey } = useWallet()
   const { connection } = useConnection()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
