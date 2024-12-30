@@ -29,7 +29,7 @@ export default function AppWalletProvider({
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletModalProvider>
-            <div style={{ position: 'absolute', top: 24, right: 5 }}>
+            <div style={{ position: 'absolute', top: 24, right: 30 }}>
               <WalletMultiButton />
             </div>
             
