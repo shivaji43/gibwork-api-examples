@@ -21,6 +21,7 @@ interface Bounty {
   title: string
   type: string
   deadline: string
+  tags:[]
   user: {
     firstName: string
     lastName: string
@@ -95,6 +96,7 @@ export default function TaskExplorer() {
         title: data.title,
         type: data.type,
         deadline: data.deadline,
+        tags:data.tags,
         user: {
           firstName: data.user.firstName,
           lastName: data.user.lastName
@@ -186,7 +188,7 @@ export default function TaskExplorer() {
           variants={fadeIn}
           className="bg-white p-6 rounded-lg shadow-lg"
         >
-          <h2 className="text-2xl font-semibold mb-4 text-violet-700">Bounties</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-violet-700">Tasks</h2>
           {loadingBounties ? (
             <div className="flex justify-center items-center h-64">
               <Loader className="w-8 h-8 text-violet-600 animate-spin" />
@@ -200,6 +202,7 @@ export default function TaskExplorer() {
                     <TableHead className="text-violet-700">Type</TableHead>
                     <TableHead className="text-violet-700">Name</TableHead>
                     <TableHead className="text-violet-700">Title</TableHead>
+                    <TableHead className="text-violet-700">Tags</TableHead>
                     <TableHead className="text-violet-700">End Date</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -216,6 +219,7 @@ export default function TaskExplorer() {
                       <TableCell>{bounty.type}</TableCell>
                       <TableCell>{`${bounty.user.firstName} ${bounty.user.lastName}`}</TableCell>
                       <TableCell>{bounty.title}</TableCell>
+                      <TableCell>{(bounty.tags || []).join(', ')}</TableCell>
                       <TableCell>{formatDate(bounty.deadline)}</TableCell>
                     </motion.tr>
                   ))}
