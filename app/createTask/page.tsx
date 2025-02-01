@@ -30,7 +30,7 @@ export default function TaskForm() {
   const [requirements, setRequirements] = useState('')
   const [tags, setTags] = useState('')
   const [mintAddress, setMintAddress] = useState('')
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -119,13 +119,13 @@ export default function TaskForm() {
       setRequirements('')
       setTags('')
       setMintAddress('')
-      setAmount(0)
+      setAmount('')
       alert(`Task created successfully! Task ID: ${data.taskId}`)
       window.location.href = '/exploreTasks'
       
     } catch (error) {
       console.error('Error creating task:', error)
-      setError(error instanceof Error ? error.message : 'Failed to create task. Please try again.')
+      setError('Failed to create task . Check Your Balance and Network and Please try again')
     } finally {
       setLoading(false)
     }
@@ -210,8 +210,8 @@ export default function TaskForm() {
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
                     required
-                    min="0"
-                    step="0.000000001"
+                    min=""
+                    step="1"
                     className="w-full border-violet-300 focus:border-violet-500 focus:ring-violet-500"
                     placeholder="Enter token amount (MINIMUM 10 USDC)"
                   />
