@@ -30,7 +30,7 @@ export default function TaskForm() {
   const [requirements, setRequirements] = useState('')
   const [tags, setTags] = useState('')
   const [mintAddress, setMintAddress] = useState('')
-  const [amount, setAmount] = useState()
+  const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -119,13 +119,13 @@ export default function TaskForm() {
       setRequirements('')
       setTags('')
       setMintAddress('')
-      setAmount('')
+      setAmount(0)
       alert(`Task created successfully! Task ID: ${data.taskId}`)
       window.location.href = '/exploreTasks'
       
     } catch (error) {
       console.error('Error creating task:', error)
-      setError('Failed to create task . Check Your Balance and Network and Please try again')
+      setError('Failed to create task , Check your Balances and Network and Please try again.')
     } finally {
       setLoading(false)
     }
